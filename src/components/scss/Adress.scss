@@ -1,0 +1,201 @@
+@use "../../App.scss" as g;
+
+.address-wrap {
+  width: 100%;
+
+  input[type="checkbox"] {
+    accent-color: g.$main-color;
+  }
+
+  .address-top {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 0 22px;
+    margin-bottom: 0;
+    @include g.userInfoListLine;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: g.$size-14-main;
+      cursor: pointer;
+    }
+  }
+
+  .address-middle {
+    @include g.userInfoPanel;
+    padding: 22px 30px 30px 30px;
+  }
+
+  .address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 150px;
+    padding: 20px 0;
+    @include g.userInfoListLine;
+
+    &:last-child {
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .item-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+
+      .content {
+        .show {
+          display: inline-block;
+          background: g.$main-color;
+          color: #fff;
+          padding: 2px 8px;
+          font-size: 10px;
+          margin-bottom: 10px;
+          border-radius: 20px;
+        }
+
+        .address-list {
+          li {
+            margin-bottom: 6px;
+            font-size: g.$size-14-main;
+            color: g.$text-main-color;
+          }
+
+          span {
+            display: inline-block;
+            width: 90px;
+            color: #999;
+          }
+        }
+      }
+    }
+
+    .item-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .Bbtn {
+        @include g.myBtn1($pd: 0);
+        min-width: 90px;
+        padding: 0 12px;
+        height: 35px;
+      }
+
+      .Wbtn {
+        @include g.myBtn2($pd: 0);
+        min-width: 90px;
+        padding: 0 12px;
+        height: 35px;
+      }
+    }
+  }
+}
+
+.address-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 20px;
+
+  .explain-list {
+    @include g.userInfoNoticeList;
+  }
+
+  .bottom-button-box {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+
+    .Bbtn {
+      @include g.myBtn1($pd: 0);
+      min-width: 120px;
+      padding: 0 12px;
+      height: 40px;
+    }
+
+    .Wbtn {
+      @include g.myBtn2($pd: 0);
+      min-width: 120px;
+      padding: 0 12px;
+      height: 40px;
+    }
+  }
+}
+
+@include g.respond(tablet) {
+  .address-wrap {
+    .address-item {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 18px;
+
+      .item-right {
+        justify-content: flex-end;
+        width: 100%;
+      }
+    }
+  }
+
+  .address-bottom {
+    flex-direction: column;
+
+    .bottom-button-box {
+      width: 100%;
+    }
+  }
+}
+
+@include g.respond(mobile) {
+  .address-wrap {
+    .address-middle {
+      padding: 18px 20px 24px;
+    }
+
+    .address-item {
+      .item-left {
+        width: 100%;
+
+        .content {
+          min-width: 0;
+
+          .address-list {
+            li {
+              display: flex;
+              flex-direction: column;
+              gap: 3px;
+            }
+
+            span {
+              width: auto;
+            }
+          }
+        }
+      }
+
+      .item-right {
+        flex-wrap: wrap;
+
+        .Bbtn,
+        .Wbtn {
+          flex: 1 1 120px;
+        }
+      }
+    }
+  }
+
+  .address-bottom {
+    .bottom-button-box {
+      .Bbtn,
+      .Wbtn {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,325 @@
+@use "../../App.scss" as g;
+
+
+
+.modal-overlay-cart-popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+
+    @include g.myFlex(center, 0, center);
+
+    animation: overlayFadeIn 0.25s ease forwards;
+
+
+    @keyframes overlayFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .modal-wrap {
+        position: relative;
+        width: 450px;
+        background: g.$white-color;
+        padding: 36px 32px 28px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        animation: slideInRight 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+        @include g.respond(small) {
+            width: 100%;
+            padding: 28px 20px 20px;
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .wish-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .modal-close-btn {
+
+            color: g.$text-main-color;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+            font-size: 24px;
+
+
+            &:hover {
+                opacity: 0.45;
+            }
+        }
+
+        .modal-added-msg {
+            font-size: g.$size-12-sub;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: g.$text-main-color;
+            margin: 0;
+        }
+    }
+
+    .cart-go {
+        border-top: 1px solid rgba(0, 0, 0, 0.09);
+        ;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+        padding: 20px 0 10px;
+
+        @include g.myFlex(flex-start, 16px, flex-start);
+    }
+
+    .cart-go-img {
+        flex-shrink: 0;
+        width: 88px;
+        height: 110px;
+        overflow: hidden;
+        background: #f5f5f5;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    .cart-go-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 2px;
+    }
+
+    .cart-popup-name {
+        font-size: g.$size-16;
+        font-weight: g.$Bold;
+        letter-spacing: 0;
+        color: g.$text-main-color;
+        line-height: 1.35;
+        margin: 0;
+    }
+
+    .cart-popup-option {
+        font-size: 13px;
+        color: g.$text-sub-color2;
+        letter-spacing: 0;
+        margin: 0;
+    }
+
+    .cart-popup-price {
+        font-size: g.$size-14-main;
+        font-weight: g.$Regular;
+        color: g.$text-main-color;
+        letter-spacing: 0;
+        margin: 4px 0 0;
+    }
+
+    .cart-popup-buttons {
+        display: flex;
+        gap: 8px;
+        padding-top: 20px;
+
+        button {
+            flex: 1;
+            height: 42px;
+            font-size: g.$size-12-sub;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+    }
+
+    .btn-continue {
+        @include g.myBtn2(g.$text-sub-color,
+            #f0f0f0,
+            none);
+
+        &:hover {
+            background: #e4e4e4;
+        }
+    }
+
+    .btn-go-cart {
+        @include g.myBtn1(g.$white-color,
+            g.$main-color,
+            none);
+
+        &:hover {
+            background: #333;
+        }
+    }
+
+    .cart-recommand {
+        padding: 16px 0 4px;
+
+        .wish-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+
+            .wish-title {
+                font-size: 14px;
+                font-weight: bold;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: #111;
+                margin: 0;
+            }
+
+            .wish-more-btn {
+                font-size: 10px;
+                letter-spacing: 0.08em;
+                color: #999;
+                cursor: pointer;
+                transition: color 0.15s;
+                text-decoration: none;
+                background: none;
+                border: none;
+                padding: 0;
+
+                &:hover {
+                    color: #111;
+                }
+            }
+        }
+
+        .wish-empty {
+            font-size: 12px;
+            color: #bbb;
+            text-align: center;
+            padding: 20px 0;
+            letter-spacing: 0.04em;
+        }
+
+        .wish-swiper {
+            .wish-item {
+                cursor: pointer;
+
+                &:hover .wish-item-img img {
+                    transform: scale(1.04);
+                }
+
+                .wish-item-img {
+                    width: 100%;
+                    aspect-ratio: 3 / 4;
+                    overflow: hidden;
+                    background: #f5f5f5;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.3s ease;
+                    }
+                }
+
+                .wish-item-info {
+                    padding: 8px 2px 4px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3px;
+
+                    .wish-item-name {
+                        font-size: 11px;
+                        font-weight: 600;
+                        line-height: 1.4;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        color: #1a1919;
+                        letter-spacing: 0;
+                    }
+
+                    .wish-item-option {
+                        font-size: 11px;
+                        color: #aaa;
+                        letter-spacing: 0;
+                    }
+
+                    .wish-item-price {
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: #111;
+                        letter-spacing: 0;
+                        margin-top: 1px;
+                    }
+                }
+            }
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                display: none;
+            }
+        }
+    }
+
+    .modal-wrap {
+
+
+
+        .wish-nav {
+            position: absolute;
+            top: 60%;
+            transform: translateY(-60%);
+
+
+            width: 28px;
+            height: 28px;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+
+            &.swiper-button-disabled {
+                opacity: 0.3;
+                cursor: default;
+            }
+        }
+
+        .wish-nav-prev {
+            left: 0; // modal-wrap 왼쪽 바깥으로
+        }
+
+        .wish-nav-next {
+            right: 0; // modal-wrap 오른쪽 바깥으로
+        }
+    }
+
+    .cart-recommand {
+        .wish-swiper {
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,209 @@
+@use "../../App.scss" as g;
+
+.savedmoney-wrap {
+  .saved-top {
+    @include g.userInfoPanel;
+    padding: 30px;
+    margin-bottom: 24px;
+
+    .my-saved {
+      @include g.userInfoListLine;
+      padding-bottom: 16px;
+      font-size: g.$size-16;
+      font-weight: g.$Bold;
+      color: g.$text-main-color;
+    }
+
+    .my-saved-middle {
+      .list-wrap {
+        padding: 24px 0;
+        @include g.userInfoListLine;
+
+        .summary-list {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        li {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          min-height: 100px;
+
+          &:not(:last-child) {
+            border-right: 1px solid #eeeeee;
+          }
+
+          .text {
+            font-size: g.$size-16;
+            color: g.$text-main-color;
+          }
+
+          .price {
+            font-size: 1.5rem;
+            font-weight: g.$Bold;
+            color: g.$text-main-color;
+          }
+        }
+      }
+
+      .explain-list {
+        @include g.userInfoNoticeList;
+        padding-top: 30px;
+      }
+    }
+  }
+
+  .saved-bottom {
+    @include g.userInfoPanel;
+    padding: 30px;
+    margin-bottom: 24px;
+
+    .top-menu {
+      @include g.myFlex(flex-start, 20px, center);
+      padding-bottom: 16px;
+      @include g.userInfoListLine;
+
+      p {
+        cursor: pointer;
+        color: g.$text-sub-color2;
+        font-size: g.$size-14-main;
+
+        &.active {
+          color: g.$text-main-color;
+          font-weight: g.$Bold;
+        }
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        background-color: #f0f0f0;
+        padding: 12px;
+        font-size: g.$size-14-main;
+        text-align: center;
+        border-top: 1px solid g.$main-color;
+        color: g.$text-main-color;
+      }
+
+      td {
+        width: 100px;
+        padding: 14px;
+        text-align: center;
+        @include g.userInfoListLine;
+        font-size: g.$size-14-main;
+        color: g.$text-main-color;
+      }
+
+      .empty-saved-money {
+        padding: 0;
+        height: 150px;
+        color: g.$text-sub-color;
+
+        .none-info-wrap {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@include g.respond(tablet) {
+  .savedmoney-wrap {
+    .saved-top,
+    .saved-bottom {
+      padding: 20px;
+    }
+
+    .saved-top {
+      .my-saved-middle {
+        .list-wrap {
+          .summary-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          li {
+            &:not(:last-child) {
+              border-right: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .saved-bottom {
+      table {
+        table-layout: fixed;
+      }
+    }
+  }
+}
+
+@include g.respond(mobile) {
+  .savedmoney-wrap {
+    .saved-top,
+    .saved-bottom {
+      padding: 14px;
+    }
+
+    .saved-top {
+      .my-saved-middle {
+        .list-wrap {
+          .summary-list {
+            grid-template-columns: 1fr;
+          }
+
+          li {
+            min-height: 78px;
+          }
+        }
+      }
+    }
+
+    .saved-bottom {
+      margin-left: -14px;
+      margin-right: -14px;
+      width: calc(100% + 28px);
+      overflow-x: hidden;
+
+      .top-menu {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        padding: 0 14px 14px;
+
+        p {
+          min-width: 0;
+          font-size: 11px;
+          line-height: 1.35;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      table {
+        table-layout: fixed;
+        min-width: 0;
+
+        th,
+        td {
+          padding: 10px 6px;
+          font-size: 11px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

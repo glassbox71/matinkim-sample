@@ -1,0 +1,167 @@
+@use "../../App.scss" as g;
+
+.inner {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.shortcut-list {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+
+    li {
+        position: relative;
+        width: 24%;
+        height: 450px;
+        transition: 0.6s;
+
+        opacity: 0;
+        transform: translateY(40px);
+
+        &.active {
+            width: 50%;
+
+            .img-box {
+                img {
+                    opacity: 1;
+                    filter: none;
+                }
+            }
+
+            .text-box {
+                .text-bottom {
+                    opacity: 1;
+                }
+
+                .text-top span {
+                    display: block;
+                    transition: 0.6s;
+                }
+
+                .text-top h3 {
+                    font-size: 36px;
+                    text-align: left;
+                    transition: 0.6s;
+                    opacity: 1;
+                }
+            }
+        }
+
+        .img-box {
+            height: 100%;
+            position: relative;
+            background: #000;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0.9;
+                filter: grayscale(100%);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0) 0%,
+                        rgba(0, 0, 0, 0) 50%,
+                        rgba(0, 0, 0, 0.4) 100%);
+                z-index: 1;
+            }
+        }
+
+        .text-box {
+            position: absolute;
+            padding: 40px;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+
+            .text-top {
+                span {
+                    font-size: g.$size-12-sub;
+                    font-weight: g.$Regular;
+                    letter-spacing: 3px;
+                    color: rgba(255, 255, 255, 0.7);
+                    display: none;
+                }
+
+                h3 {
+                    letter-spacing: 2px;
+                    font-weight: g.$Bold;
+                    color: #fff;
+                    text-align: center;
+                    transition: 0.6s;
+                }
+            }
+
+            .text-bottom {
+                opacity: 0;
+                transition: opacity 0.6s;
+
+                .text-des {
+                    width: 300px;
+                    font-size: g.$size-14-main;
+                    color: #fff;
+                    margin-bottom: 10px;
+                    opacity: 0.8;
+                    line-height: 1.5;
+                    height: calc(1.5em * 2);
+                }
+
+                .text-more {
+                    display: flex;
+                    gap: 5px;
+
+                    img {
+                        height: 10px;
+                        opacity: 0.7;
+                    }
+
+                    span {
+                        font-size: 0.625rem;
+                        color: #fff;
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes shortcutUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section.is-visible {
+    .shortcut-list {
+        li {
+            animation: shortcutUp 0.7s ease forwards;
+        }
+
+        @for $i from 1 through 4 {
+            li:nth-child(#{$i}) {
+                animation-delay: #{($i - 1) * 0.12}s;
+            }
+        }
+    }
+}

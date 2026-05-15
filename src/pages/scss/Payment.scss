@@ -1,0 +1,969 @@
+@use "../../App.scss" as g;
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-page {
+    padding: 120px 0 120px;
+    background: g.$white-color;
+    color: g.$text-main-color;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &.is-loaded {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-page.kimmatin-payment-page {
+    background: #050505;
+    color: #fff;
+
+    .payment-empty img {
+        filter: brightness(0) invert(1);
+    }
+
+    .payment-summary-column {
+        border-left-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .payment-step-header p,
+    .step-title-row span,
+    .inline-fields i,
+    .faq-question i,
+    .summary-order-head span,
+    .summary-item-copy p,
+    .summary-item-copy span,
+    .delivery-note p,
+    .summary-terms,
+    .selected-method-copy,
+    .discount-empty-text {
+        color: rgba(255, 255, 255, 0.62);
+    }
+
+    .field span,
+    .check-field,
+    .discount-label,
+    .discount-box-head span,
+    .discount-box-head strong,
+    .method-card-copy strong,
+    .faq-question span,
+    .summary-order-head strong,
+    .summary-order-item>strong,
+    .summary-item-copy h3,
+    .summary-line span,
+    .summary-line strong,
+    .summary-total-row span,
+    .summary-total-row strong,
+    .delivery-note strong,
+    .summary-terms strong {
+        color: #fff;
+    }
+
+    .field input,
+    .field select,
+    .field textarea,
+    .apply-fields input,
+    .apply-fields .coupon-select {
+        border-color: rgba(255, 255, 255, 0.24);
+        background-color: #050505;
+        color: #fff;
+
+        &:focus {
+            border-color: #fff;
+        }
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.38);
+        }
+    }
+
+    .field select,
+    .apply-fields .coupon-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%23ffffff' stroke-opacity='0.7' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .outline-btn,
+    .method-card,
+    .discount-box {
+        border-color: rgba(255, 255, 255, 0.22);
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .dark-btn,
+    .apply-fields .dark-btn.small,
+    .order-submit-btn {
+        border: 1px solid #fff;
+        background: #fff;
+        color: #000;
+    }
+
+    .method-card {
+        &.is-active {
+            border-color: #fff;
+        }
+
+        .method-card-copy p {
+            color: rgba(255, 255, 255, 0.58);
+        }
+    }
+
+    .method-badges span,
+    .delivery-note {
+        background: #161616;
+        color: #fff;
+    }
+
+    .payment-faq-section,
+    .faq-item,
+    .summary-order-head,
+    .summary-order-item {
+        border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .summary-total-row {
+        border-top-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .summary-thumb {
+        background: #111;
+
+        &::after {
+            background: rgba(255, 255, 255, 0.04);
+        }
+    }
+
+    .discount-applied-row {
+        border-color: rgba(255, 255, 255, 0.24);
+        background: #111;
+    }
+
+    .discount-applied-tag {
+        color: #fff;
+    }
+
+    .discount-cancel-btn {
+        border-color: rgba(255, 255, 255, 0.28);
+        background: #050505;
+        color: #fff;
+    }
+
+    .discount-summary {
+        border-color: rgba(255, 255, 255, 0.24);
+        background: #111;
+
+        span,
+        .discount-total {
+            color: #fff;
+        }
+    }
+}
+
+.payment-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 600px;
+    gap: 48px;
+    align-items: start;
+}
+
+.payment-empty {
+    padding: 260px 0 140px;
+    text-align: center;
+
+    img {
+        width: 50px;
+    }
+
+    p {
+        margin-top: 14px;
+        font-size: g.$size-16;
+    }
+}
+
+.payment-form-column {
+    min-width: 0;
+}
+
+.payment-summary-column {
+    min-width: 0;
+    align-self: stretch;
+    position: relative;
+    border-left: 1px solid rgba(g.$main-color, 0.12);
+    padding-left: 48px;
+}
+
+.payment-step-section {
+    &+& {
+        margin-top: 68px;
+    }
+}
+
+.payment-step-header {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    // border-bottom: 1px solid rgba(g.$main-color, 0.12);
+
+    p {
+        margin-top: 10px;
+        font-size: g.$size-12-sub;
+        color: g.$text-sub-color;
+    }
+}
+
+.step-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: g.$Bold;
+    }
+
+    span {
+        font-size: g.$size-12-sub;
+        // letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: g.$text-sub-color2;
+    }
+}
+
+.payment-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &.full,
+    &.postal-field {
+        grid-column: 1 / -1;
+    }
+
+    &.half {
+        grid-column: span 1;
+    }
+
+    span {
+        font-size: 0.78rem;
+        font-weight: g.$Bold;
+        color: g.$text-main-color;
+    }
+
+    em {
+        color: g.$red-color;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        height: 44px;
+        border: 1px solid rgba(g.$main-color, 0.3);
+        background: g.$white-color;
+        padding: 0 14px;
+        font-size: g.$size-14-main;
+        color: g.$text-main-color;
+        outline: none;
+
+        &:focus {
+            border-color: g.$main-color;
+        }
+
+        &.error {
+            border-color: g.$red-color;
+        }
+    }
+
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 42px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%23666666' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 12px;
+    }
+
+    textarea {
+        height: 78px;
+        resize: none;
+        padding-top: 14px;
+    }
+}
+
+.inline-fields {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+        color: g.$text-sub-color;
+        font-size: g.$size-14-main;
+    }
+}
+
+.phone-fields {
+
+    select,
+    input {
+        flex: 1;
+    }
+}
+
+.email-fields {
+
+    input,
+    select {
+        flex: 1;
+    }
+}
+
+.shipping-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+
+    .outline-btn {
+        width: auto;
+        height: 36px;
+        padding: 0 16px;
+        flex: 0 0 auto;
+    }
+}
+
+.check-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: g.$text-main-color;
+
+    input {
+        width: 14px;
+        height: 14px;
+        accent-color: g.$main-color;
+    }
+}
+
+.bottom-check {
+    margin-top: 12px;
+}
+
+.outline-btn,
+.dark-btn {
+    height: 100%;
+    width: 15%;
+    padding: 0 16px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.outline-btn {
+    border: 1px solid rgba(g.$main-color, 0.3);
+    background: g.$white-color;
+    color: g.$text-main-color;
+}
+
+.dark-btn {
+    border: 1px solid g.$main-color;
+    background: g.$main-color;
+    color: g.$white-color;
+}
+
+.small {
+    min-width: 58px;
+    justify-content: center;
+}
+
+.discount-block {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.discount-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.discount-label {
+    font-size: 0.78rem;
+    font-weight: g.$Bold;
+}
+
+.apply-fields {
+    input {
+        flex: 1;
+        height: 40px;
+        border: 1px solid rgba(g.$main-color, 0.3);
+        padding: 0 14px;
+        font-size: g.$size-14-main;
+
+        &:focus {
+            border-color: g.$main-color;
+            outline: none;
+        }
+    }
+
+    button {
+        flex: 0 0 72px;
+        width: 72px;
+        height: 40px;
+    }
+}
+
+.discount-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.discount-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.discount-box-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.78rem;
+
+    strong {
+        font-weight: g.$Bold;
+    }
+}
+
+.payment-method-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.method-card {
+    border: 1px solid rgba(g.$main-color, 0.18);
+    background: g.$white-color;
+    padding: 18px 28px;
+    text-align: left;
+    cursor: pointer;
+
+    &.is-active {
+        border: 2px solid g.$main-color;
+        padding: 17px 27px;
+    }
+}
+
+.method-card-copy {
+    strong {
+        display: block;
+        font-size: g.$size-14-main;
+        font-weight: g.$Bold;
+    }
+
+    p {
+        margin-top: 8px;
+        font-size: g.$size-12-sub;
+        color: g.$text-sub-color;
+    }
+}
+
+.method-badges {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 18px;
+        padding: 0 6px;
+        background: #f1f1f1;
+        font-size: 0.62rem;
+        color: g.$text-sub-color;
+    }
+}
+
+.payment-faq-section {
+    margin-top: 80px;
+    border-top: 1px solid rgba(g.$main-color, 0.12);
+}
+
+.faq-item {
+    border-bottom: 1px solid rgba(g.$main-color, 0.12);
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    text-align: left;
+    cursor: pointer;
+
+    span {
+        font-size: 0.9rem;
+        font-weight: g.$Bold;
+    }
+
+    i {
+        font-style: normal;
+        color: g.$text-sub-color;
+    }
+}
+
+.faq-answer {
+    padding: 0 0 18px;
+    font-size: g.$size-14-main;
+    line-height: 1.7;
+    color: g.$text-sub-color;
+}
+
+.summary-panel {
+    position: sticky;
+    top: 120px;
+    padding-top: 2px;
+}
+
+.summary-header {
+    margin-bottom: 18px;
+}
+
+.summary-order-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(g.$main-color, 0.12);
+
+    strong,
+    span {
+        font-size: 0.82rem;
+    }
+
+    span {
+        color: g.$text-sub-color;
+    }
+}
+
+.summary-order-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-order-item {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(g.$main-color, 0.08);
+
+    >strong {
+        font-size: g.$size-16;
+        font-weight: g.$Bold;
+        white-space: nowrap;
+    }
+}
+
+.summary-thumb {
+    position: relative;
+    width: 72px;
+    // background: #f5f5f5;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.05);
+        pointer-events: none;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1.05;
+        object-fit: contain;
+    }
+}
+
+.summary-item-copy {
+    min-width: 0;
+
+    h3 {
+        font-size: g.$size-14-main;
+        font-weight: g.$Bold;
+        line-height: 1.45;
+    }
+
+    p,
+    span {
+        display: block;
+        margin-top: 6px;
+        font-size: g.$size-12-sub;
+        color: g.$text-sub-color;
+    }
+}
+
+.summary-price-list {
+    padding: 16px 0 14px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+
+    span,
+    strong {
+        font-size: g.$size-12-sub;
+    }
+
+    strong {
+        font-weight: g.$Bold;
+    }
+}
+
+.summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 16px 0;
+    border-top: 2px solid g.$main-color;
+
+    span {
+        font-size: g.$size-16;
+        font-weight: g.$Bold;
+    }
+
+    strong {
+        font-size: g.$size-16;
+        line-height: 1;
+        font-weight: g.$Bold;
+    }
+}
+
+.delivery-note {
+    padding: 14px 16px;
+    background: #f4f4f4;
+
+    strong {
+        display: block;
+        font-size: 0.74rem;
+        font-weight: g.$Bold;
+    }
+
+    p {
+        margin-top: 6px;
+        font-size: 0.72rem;
+        color: g.$text-sub-color;
+    }
+}
+
+.order-submit-btn {
+    width: 100%;
+    height: 52px;
+    margin-top: 22px;
+    background: g.$main-color;
+    color: g.$white-color;
+    font-size: g.$size-14-main;
+    font-weight: g.$Bold;
+    cursor: pointer;
+}
+
+.summary-terms,
+.selected-method-copy {
+    text-align: center;
+    font-size: 0.68rem;
+    line-height: 1.7;
+    color: g.$text-sub-color;
+}
+
+.summary-terms {
+    margin-top: 12px;
+
+    strong {
+        color: g.$text-main-color;
+        font-weight: g.$Bold;
+    }
+}
+
+.selected-method-copy {
+    margin-top: 10px;
+}
+
+.error-text {
+    color: g.$red-color;
+    padding-top: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+}
+
+.error-text::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 14px;
+    margin-right: 6px;
+    background-image: url("/images/danger.svg");
+    background-repeat: no-repeat;
+}
+
+// Payment.scss 에 아래 스타일을 추가하세요
+// ─── 할인 섹션 추가 스타일 ───────────────────────────────────
+
+.discount-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.discount-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.discount-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary, #111);
+}
+
+// 프로모션·포인트·쿠폰 공통: 입력 + 버튼 행
+.apply-fields {
+    display: flex;
+    gap: 8px;
+
+    input {
+        flex: 1;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid #d1d1d1;
+        font-size: 14px;
+        background: #fff;
+        color: #111;
+        outline: none;
+        font-size: 0.825em;
+
+
+    }
+
+    .coupon-select {
+        flex: 1;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid #d1d1d1;
+        font-size: 14px;
+        background: #fff;
+        color: #111;
+        outline: none;
+        font-size: 0.825em;
+
+
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 42px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%23666666' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 12px;
+
+
+
+        &:focus {
+            border-color: #111;
+        }
+
+        &::placeholder {
+            color: #aaa;
+        }
+    }
+
+    .coupon-select {
+        cursor: pointer;
+    }
+
+    .dark-btn.small {
+        flex-shrink: 0;
+        height: 42px;
+        padding: 0 18px;
+        background: #111;
+        color: #fff;
+        border: none;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: opacity 0.15s;
+
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+}
+
+// 좌우 2열 박스 (포인트 / 쿠폰)
+.discount-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.discount-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid #e8e8e8;
+    background: #fafafa;
+}
+
+.discount-box-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        font-size: 13px;
+        font-weight: 500;
+        color: #111;
+    }
+
+    strong {
+        font-size: 12px;
+        color: #555;
+        font-weight: 400;
+    }
+}
+
+// 포인트 빠른입력 버튼
+.point-quick-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.point-quick-btn {
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid #d1d1d1;
+    background: #fff;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+
+    &:hover {
+        border-color: #111;
+        background: #f5f5f5;
+    }
+}
+
+// 적용 완료 상태 행
+.discount-applied-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #f0f7f0;
+    border: 1px solid #b8ddb8;
+}
+
+.discount-applied-tag {
+    font-size: 13px;
+    color: #2a6b2a;
+
+    strong {
+        font-weight: 600;
+    }
+}
+
+.discount-cancel-btn {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    border: 1px solid #b8ddb8;
+    background: #fff;
+    font-size: 12px;
+    color: #2a6b2a;
+    cursor: pointer;
+
+    &:hover {
+        background: #e6f4e6;
+    }
+}
+
+// 쿠폰 없을 때 안내
+.discount-empty-text {
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
+}
+
+// 총 할인 요약 바
+.discount-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: #fff8f0;
+    border: 1px solid #f0d8b0;
+
+    span {
+        font-size: 14px;
+        color: #333;
+    }
+
+    .discount-total {
+        font-size: 16px;
+        font-weight: 600;
+        color: #c0392b;
+    }
+}
+
+// 주문 요약 패널 — 할인 항목 강조
+.summary-line--discount {
+    strong {
+        color: #c0392b;
+    }
+}
+
+// 에러 텍스트 (기존과 동일하면 생략 가능)
+.error-text {
+    font-size: 12px;
+    color: #c0392b;
+    margin-top: 4px;
+}

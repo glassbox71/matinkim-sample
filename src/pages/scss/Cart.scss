@@ -1,0 +1,612 @@
+.cart-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+}
+
+.cart-panel .cart-dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+}
+
+.cart-panel-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 760px;
+    max-width: 100%;
+    height: 100vh;
+    background: #fff;
+    padding: 56px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;
+    animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 2px;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+// ── 체크박스 ────────────────────────────────────────────
+.cart-panel .check-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    input[type="checkbox"] {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 1.5px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: border-color 0.15s, background-color 0.15s;
+
+        &:checked {
+            background-color: #111;
+            border-color: #111;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px;
+        }
+
+        &:hover {
+            border-color: #111;
+        }
+    }
+}
+
+// ── 헤더 ────────────────────────────────────────────────
+.cart-panel .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #111;
+
+    h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+    }
+
+    .close-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.6;
+        transition: opacity 0.15s;
+
+        img {
+            width: 18px;
+            height: 18px;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+// ── 비어있을 때 ──────────────────────────────────────────
+.cart-empty {
+    margin-top: 40px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+
+// ── 전체선택 행 ──────────────────────────────────────────
+.cart-select-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+
+    span {
+        font-size: 13px;
+        color: #333;
+    }
+}
+
+.cart-panel .delete-selected-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: #999;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+
+    &:hover {
+        color: #111;
+    }
+}
+
+// ── 상품 목록 ────────────────────────────────────────────
+.cart-panel .cart-list {
+    padding-top: 8px;
+    flex: 1;
+}
+
+.cart-panel .cart-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.cart-panel .item-left {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+
+}
+
+// ── 썸네일 ───────────────────────────────────────────────
+.cart-panel .item-thumb {
+    width: 88px;
+    height: 104px;
+    background: #f8f8f8;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.04);
+    }
+}
+
+// ── 상품 정보 ────────────────────────────────────────────
+.cart-panel .item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    h3 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: 0.02em;
+        color: #111;
+    }
+}
+
+// ── 옵션 표시 (일반) ─────────────────────────────────────
+.cart-panel .item-info .change {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cart-panel .option-change-btn {
+    display: inline-block;
+    font-size: 11px;
+    color: #999;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    letter-spacing: 0.02em;
+    transition: color 0.15s;
+    width: fit-content;
+
+    &:hover {
+        color: #111;
+    }
+}
+
+.cart-panel .item-option {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 0.01em;
+}
+
+// ── 옵션 편집 박스 ───────────────────────────────────────
+.cart-panel .option-edit-box {
+    display: flex;
+    // flex-direction: column;
+    gap: 8px;
+    background: #f8f8f8;
+    // border: 1px solid #e8e8e8;
+    padding: 5px;
+    margin: 2px 0;
+}
+
+.cart-panel .option-edit-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #555;
+        letter-spacing: 0.04em;
+
+    }
+
+    select {
+        flex: 1;
+        height: 20px;
+        padding: 0 28px 0 10px;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        width: 100px;
+        appearance: none;
+        font-size: 11px;
+        color: #222;
+        cursor: pointer;
+        transition: border-color 0.15s;
+
+        &:focus {
+            outline: none;
+            border-color: #111;
+        }
+
+        option:disabled {
+            color: #bbb;
+        }
+    }
+}
+
+.cart-panel .option-edit-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+
+    button {
+        flex: 1;
+        height: 20px;
+        width: 50px;
+        font-size: 12px;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+        transition: background 0.15s, color 0.15s;
+
+        &:first-child {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+
+            &:hover {
+                background: #333;
+            }
+        }
+
+        &:last-child {
+            background: #fff;
+            color: #555;
+            border: 1px solid #ddd;
+
+            &:hover {
+                background: #f0f0f0;
+                color: #111;
+            }
+        }
+    }
+}
+
+// ── 수량 조절 ────────────────────────────────────────────
+.cart-panel .item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 4px;
+    width: fit-content;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+
+    button {
+        width: 24px;
+        height: 24px;
+        border: none;
+        background: #fafafa;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+
+        &:hover {
+            background: #f0f0f0;
+        }
+
+        &:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    span {
+        min-width: 32px;
+        height: 28px;
+        text-align: center;
+        font-size: 13px;
+        border: none;
+        border-left: 1px solid #e0e0e0;
+        border-right: 1px solid #e0e0e0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+// ── 삭제 버튼 ────────────────────────────────────────────
+.cart-panel .remove-btn {
+    cursor: pointer;
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 2px;
+    width: fit-content;
+    transition: color 0.15s;
+
+    &:hover {
+        color: #111;
+    }
+}
+
+// ── 가격 ─────────────────────────────────────────────────
+.cart-panel .item-price {
+    min-width: 100px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 4px;
+    letter-spacing: 0.01em;
+}
+
+// ── 합계 ─────────────────────────────────────────────────
+.cart-panel .cart-summary {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 16px;
+    margin-top: 8px;
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 13px;
+        color: #555;
+
+        span:last-child {
+            color: #222;
+        }
+
+        &.total {
+            margin-top: 10px;
+            border-top: 2px solid #111;
+            padding-top: 16px;
+
+            span {
+                font-size: 14px;
+                font-weight: 600;
+                color: #111;
+            }
+
+            strong {
+                font-size: 20px;
+                font-weight: 800;
+                color: #111;
+                letter-spacing: -0.01em;
+            }
+        }
+    }
+}
+
+// ── 주문 버튼 ────────────────────────────────────────────
+.cart-panel .order-btn {
+    width: 100%;
+    height: 48px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s;
+
+}
+
+.cart-panel.kimmatin-cart {
+    color: #fff;
+
+    .cart-dim {
+        background: rgba(0, 0, 0, 0.72);
+    }
+
+    .cart-panel-inner {
+        border-left: 1px solid rgba(255, 255, 255, 0.22);
+        background: #050505;
+        color: #fff;
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.24);
+        }
+    }
+
+    .cart-header {
+        border-bottom-color: rgba(255, 255, 255, 0.82);
+
+        h2 {
+            color: #fff;
+        }
+
+        .close-btn img {
+            filter: brightness(0) invert(1);
+        }
+    }
+
+    .cart-empty,
+    .delete-selected-btn,
+    .option-change-btn,
+    .item-option,
+    .cart-summary .summary-row {
+        color: rgba(255, 255, 255, 0.66);
+    }
+
+    .cart-select-row,
+    .cart-item,
+    .cart-summary {
+        border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .cart-select-row span,
+    .item-info h3,
+    .item-price,
+    .cart-summary .summary-row span:last-child,
+    .cart-summary .summary-row.total span,
+    .cart-summary .summary-row.total strong {
+        color: #fff;
+    }
+
+    .cart-summary .summary-row.total {
+        border-top-color: rgba(255, 255, 255, 0.82);
+    }
+
+    .item-thumb,
+    .option-edit-box {
+        background: #111;
+    }
+
+    .check-wrap input[type="checkbox"] {
+        border-color: rgba(255, 255, 255, 0.42);
+        background-color: #050505;
+
+        &:checked {
+            background-color: #fff;
+            border-color: #fff;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='black' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        }
+
+        &:hover {
+            border-color: #fff;
+        }
+    }
+
+    .option-edit-row {
+        label {
+            color: rgba(255, 255, 255, 0.66);
+        }
+
+        select {
+            border-color: rgba(255, 255, 255, 0.22);
+            background-color: #050505;
+            color: #fff;
+
+            &:focus {
+                border-color: #fff;
+            }
+        }
+    }
+
+    .option-edit-btns button {
+        &:first-child {
+            border-color: #fff;
+            background: #fff;
+            color: #000;
+
+            &:hover {
+                background: #e8e8e8;
+            }
+        }
+
+        &:last-child {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: #111;
+            color: #fff;
+
+            &:hover {
+                background: #1d1d1d;
+                color: #fff;
+            }
+        }
+    }
+
+    .item-qty {
+        border-color: rgba(255, 255, 255, 0.22);
+
+        button,
+        span {
+            background: #111;
+            color: #fff;
+        }
+
+        button:hover {
+            background: #1d1d1d;
+        }
+
+        span {
+            border-left-color: rgba(255, 255, 255, 0.22);
+            border-right-color: rgba(255, 255, 255, 0.22);
+        }
+    }
+
+    .remove-btn:hover,
+    .delete-selected-btn:hover,
+    .option-change-btn:hover {
+        color: #fff;
+    }
+
+    .order-btn {
+        border: 1px solid #fff;
+        background: #fff;
+        color: #000;
+    }
+}

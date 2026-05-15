@@ -1,0 +1,118 @@
+.pro-section {
+    .mySub-Swiper {
+        .show-slide {
+            position: relative;
+
+            .main-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                h3 {
+                    font-size: 2.5em;
+                }
+
+                h4 {
+                    font-size: 2em;
+                }
+
+                p {
+                    font-size: 0.88em;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.col-section {
+    .mySub-Swiper {
+        .show-slide {
+            position: relative;
+
+            .main-text {
+                position: absolute;
+                top: 45%;
+                left: 60%;
+
+                h3 {
+                    font-size: 2.5em;
+                }
+
+                h4 {
+                    font-size: 2em;
+                }
+
+                p {
+                    font-size: 0.88em;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+// ── 반응형
+@media (max-width: 1024px) {
+
+    .pro-section,
+    .col-section {
+        .mySub-Swiper .show-slide .main-text {
+            h3 {
+                font-size: 1.8em;
+            }
+
+            h4 {
+                font-size: 1.5em;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    .pro-section,
+    .col-section {
+        .mySub-Swiper .show-slide .main-text {
+            h3 {
+                font-size: 1.4em;
+            }
+
+            h4 {
+                font-size: 1.1em;
+            }
+
+            p {
+                font-size: 0.78em;
+            }
+        }
+    }
+
+    .col-section .mySub-Swiper .show-slide .main-text {
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .pro-section,
+    .col-section {
+        .mySub-Swiper .show-slide .main-text {
+            h3 {
+                font-size: 1.1em;
+            }
+
+            h4 {
+                font-size: 0.95em;
+            }
+
+            p {
+                font-size: 0.72em;
+            }
+        }
+    }
+}

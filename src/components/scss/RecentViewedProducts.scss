@@ -1,0 +1,183 @@
+@use "../../App.scss" as g;
+
+.recent-products-wrap {
+  width: 100%;
+  position: relative;
+
+  .recent-products-top {
+    position: absolute;
+    top: -64px;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 40px;
+    margin-bottom: 0;
+
+    .Wbtn {
+      @include g.myBtn2($pd: 0);
+      width: 120px;
+      height: 40px;
+    }
+  }
+
+  .recent-products-panel {
+    @include g.userInfoPanel;
+    padding: 30px;
+  }
+
+  .recent-product-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .recent-product-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 170px;
+    padding: 20px 0;
+    @include g.userInfoListLine;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .recent-product-img {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+
+    img {
+      width: 100px;
+      height: 150px;
+      object-fit: contain;
+    }
+  }
+
+  .recent-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: max-content;
+  }
+
+  .recent-product-name {
+    display: block;
+    width: auto;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    border: none;
+    background: none;
+    padding: 0;
+    color: g.$text-main-color;
+    font-size: g.$size-16;
+    font-weight: g.$Bold;
+    font-family: inherit;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .recent-product-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: g.$text-main-color;
+    font-size: g.$size-14-main;
+
+    del {
+      color: g.$text-sub-color;
+      font-size: g.$size-14-main;
+    }
+  }
+
+  .button-wrap {
+    display: flex;
+    gap: 8px;
+
+    .Bbtn {
+      @include g.myBtn1($pd: 0);
+      min-width: 90px;
+      padding: 0 12px;
+      height: 35px;
+    }
+
+    .Wbtn {
+      @include g.myBtn2($pd: 0);
+      min-width: 90px;
+      padding: 0 12px;
+      height: 35px;
+    }
+  }
+}
+
+@include g.respond(tablet) {
+  .recent-products-wrap {
+    .recent-products-top {
+      position: static;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+@include g.respond(mobile) {
+  .recent-products-wrap {
+    .recent-products-top {
+      justify-content: stretch;
+
+      .Wbtn {
+        width: 100%;
+        height: 34px;
+        font-size: 0.75rem;
+      }
+    }
+
+    .recent-products-panel {
+      padding: 14px 16px;
+    }
+
+    .recent-product-item {
+      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 12px;
+      min-height: 0;
+      padding: 16px 0;
+    }
+
+    .recent-product-img {
+      img {
+        width: 80px;
+        height: 120px;
+      }
+    }
+
+    .recent-product-info {
+      min-width: max-content;
+    }
+
+    .button-wrap {
+      grid-column: 2 / -1;
+      flex-wrap: wrap;
+      gap: 6px;
+
+      .Bbtn,
+      .Wbtn {
+        flex: 1 1 86px;
+        min-width: 0;
+        height: 30px;
+        padding: 0 8px;
+        font-size: 0.6875rem;
+      }
+    }
+  }
+}

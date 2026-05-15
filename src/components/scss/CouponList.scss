@@ -1,0 +1,172 @@
+@use "../../App.scss" as g;
+
+.couponlist-wrap {
+  .coupon-top {
+    @include g.userInfoPanel;
+    padding: 30px;
+    margin-bottom: 24px;
+
+    .coupon-num {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input {
+      @include g.myTextBox;
+      width: 250px;
+      height: 40px;
+    }
+
+    button {
+      @include g.myBtn1($pd: 0);
+      width: 120px;
+      height: 40px;
+    }
+
+    p {
+      margin-top: 10px;
+      color: g.$text-sub-color;
+      font-size: g.$size-14-main;
+      line-height: 1.5;
+    }
+
+    .explain-list {
+      @include g.userInfoNoticeList;
+      padding-top: 20px;
+    }
+  }
+
+  .coupon-bottom {
+    @include g.userInfoPanel;
+    padding: 30px;
+
+    .mycoupon-top {
+      @include g.myFlex(space-between, 0, center);
+      padding-bottom: 16px;
+      @include g.userInfoListLine;
+
+      .mycoupon-title {
+        font-size: g.$size-16;
+        font-weight: g.$Bold;
+        color: g.$text-main-color;
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        background-color: #f0f0f0;
+        padding: 12px;
+        font-size: g.$size-14-main;
+        text-align: center;
+        border-top: 1px solid g.$main-color;
+        color: g.$text-main-color;
+      }
+
+      td {
+        padding: 14px;
+        text-align: center;
+        @include g.userInfoListLine;
+        font-size: g.$size-14-main;
+        color: g.$text-main-color;
+      }
+
+      .empty-coupon {
+        padding: 0;
+        color: g.$text-sub-color;
+        height: 150px;
+
+        .none-info-wrap {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@include g.respond(tablet) {
+  .couponlist-wrap {
+    .coupon-top,
+    .coupon-bottom {
+      padding: 20px;
+    }
+
+    .coupon-bottom {
+      overflow-x: hidden;
+
+      table {
+        table-layout: fixed;
+        min-width: 0;
+      }
+    }
+  }
+}
+
+@include g.respond(mobile) {
+  .couponlist-wrap {
+    .coupon-top,
+    .coupon-bottom {
+      padding: 14px;
+    }
+
+    .coupon-top {
+      .coupon-num {
+        align-items: stretch;
+        flex-direction: column;
+
+        input,
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .coupon-bottom {
+      margin-left: -14px;
+      margin-right: -14px;
+      width: calc(100% + 28px);
+      overflow-x: hidden;
+
+      .mycoupon-top {
+        padding: 0 14px 14px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      table {
+        table-layout: fixed;
+        min-width: 0;
+
+        th,
+        td {
+          padding: 10px 4px;
+          font-size: 11px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        th:nth-child(1) {
+          width: 38%;
+        }
+
+        th:nth-child(2) {
+          width: 24%;
+        }
+
+        th:nth-child(3) {
+          width: 38%;
+        }
+
+        th:nth-child(n + 4),
+        td:nth-child(n + 4) {
+          display: none;
+        }
+      }
+    }
+  }
+}

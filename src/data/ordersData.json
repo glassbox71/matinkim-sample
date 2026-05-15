@@ -1,0 +1,44 @@
+[
+  {
+    "id": "past-2023-01",
+    "state": "과거주문",
+    "date": "20231118",
+    "name": "마뗑킴",
+    "phone": "010-1234-5678",
+    "address": "마뗑시 마뗑구 마뗑킴로 123-12 마뗑빌라",
+    "payment": "신용카드",
+    "deliveryCost": 0,
+    "orders": [
+      {
+        "id": "past-2023-01-1",
+        "name": "PATCHWORK CARGO BERMUDA PANTS FOR MEN IN BEIGE",
+        "img": "https://matinkim.com/web/product/medium/202604/af24497fdacbac8b575687c878af7669.jpg",
+        "price": 198000,
+        "status": "조회불가",
+        "size": "L",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "id": "past-2022-01",
+    "state": "과거주문",
+    "date": "20220420",
+    "name": "마뗑킴",
+    "phone": "010-1234-5678",
+    "address": "마뗑시 마뗑구 마뗑킴로 123-12 마뗑빌라",
+    "payment": "신용카드",
+    "deliveryCost": 0,
+    "orders": [
+      {
+        "id": "past-2022-01-1",
+        "name": "MATIN LIGHT MESH CAP IN BLACK",
+        "img": "https://cafe24img.poxo.com/kimdaniyaya/web/product/medium/202603/de8e4df27a4d897c4f265a7c5ac38a09.jpg",
+        "price": 58000,
+        "status": "조회불가",
+        "size": "FREE",
+        "count": 1
+      }
+    ]
+  }
+]

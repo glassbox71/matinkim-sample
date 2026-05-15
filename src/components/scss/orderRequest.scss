@@ -1,0 +1,306 @@
+@use "../../App.scss" as g;
+
+.request-back-btn {
+  @include g.myBtn2($pd: 0);
+  width: fit-content;
+  min-width: 74px;
+  height: 40px;
+  flex: 0 0 auto;
+  padding: 0 14px;
+}
+
+.order-request-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: 1rem;
+
+  h2,
+  p {
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .request-back-btn {
+    width: fit-content;
+    min-width: 74px;
+    height: 40px;
+  }
+}
+
+@include g.respond(tablet) {
+  .request-back-btn {
+    width: fit-content;
+    min-width: 68px;
+    height: 34px;
+    flex-basis: auto;
+    padding: 0 12px;
+    font-size: 0.75rem;
+  }
+
+  .order-request-page {
+    .request-section {
+      .request-order-info,
+      .request-form-top {
+        padding: 20px;
+      }
+    }
+  }
+}
+
+@include g.respond(mobile) {
+  .order-request-top {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+
+    .request-back-btn {
+      width: fit-content;
+      min-width: 58px;
+      height: 30px;
+      flex: 0 0 auto;
+      padding: 0 10px;
+      font-size: 0.6875rem;
+    }
+  }
+
+  .order-request-page {
+    .request-section {
+      .request-order-info,
+      .request-form-top {
+        padding: 14px;
+      }
+    }
+
+    .request-notice-box {
+      flex-direction: column;
+
+      .request-submit-btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.order-request-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &.is-empty {
+    align-items: center;
+    text-align: center;
+  }
+
+  .request-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .request-order-info {
+      @include g.userInfoPanel;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 30px;
+
+      h2 {
+        margin-bottom: 23px;
+        font-size: g.$size-22;
+      }
+
+      div {
+        display: flex;
+        gap: 10px;
+        font-size: g.$size-14-main;
+        flex-wrap: wrap;
+      }
+
+      p {
+        color: g.$text-sub-color;
+      }
+
+      span {
+        color: g.$text-main-color;
+        line-height: 1.5;
+      }
+    }
+
+    .request-form-top {
+      @include g.userInfoPanel;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 30px;
+
+      h3 {
+        font-size: g.$size-16;
+      }
+    }
+
+    .request-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .request-field-title {
+        font-weight: g.$Bold;
+      }
+
+      .request-option-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .request-select-wrap {
+        position: relative;
+
+        .request-dropdown {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .request-dropdown-btn {
+          @include g.myTextBox;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          padding: 16px;
+
+          span {
+            font-size: g.$size-14-main;
+          }
+
+          &.is-placeholder {
+            color: g.$text-sub-color;
+          }
+
+          &.is-open {
+            border-color: g.$main-color;
+            border-radius: 4px 4px 0 0;
+          }
+        }
+
+        .request-dropdown-arrow {
+          width: 15px;
+        }
+
+        .request-dropdown-menu {
+          display: flex;
+          flex-direction: column;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          border-top: 0;
+          transition: 0.25s ease;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          &.is-open {
+            max-height: 100%;
+            overflow-y: auto;
+            opacity: 1;
+          }
+        }
+
+        .request-dropdown-item {
+          @include g.myTextBox;
+          font-size: g.$size-14-main;
+          display: flex;
+          align-items: flex-start;
+          cursor: pointer;
+          padding: 16px;
+
+          &:hover {
+            border-color: g.$main-color;
+            background: #fafafa;
+            box-shadow: inset 0 0 0 1px g.$main-color;
+          }
+
+          &.is-active {
+            background: #f3f3f3;
+            color: g.$main-color;
+            border-color: g.$main-color;
+            box-shadow: inset 0 0 0 1px g.$main-color;
+          }
+        }
+      }
+
+      .request-option-btn {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #d7d7d7;
+        background: #ffffff;
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          background: #fafafa;
+        }
+
+        &.is-active {
+          border-color: g.$main-color;
+          background: #f3f3f3;
+          color: g.$text-main-color;
+          box-shadow: inset 0 0 0 1px g.$main-color;
+        }
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        @include g.myTextBox;
+        font-family: inherit;
+        line-height: 1.2;
+        padding: 16px;
+        color: g.$text-main-color;
+
+        &:focus {
+          outline: none;
+          border-color: g.$main-color;
+        }
+      }
+
+      .field-error {
+        font-size: g.$size-14-main;
+        color: g.$red-color;
+      }
+    }
+  }
+
+  .request-notice-box {
+    padding-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+
+    ul {
+      @include g.userInfoNoticeList;
+    }
+
+    .request-submit-btn {
+      @include g.myBtn1($pd: 0);
+      width: 120px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+  }
+}
