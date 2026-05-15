@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Naver Login Callback</title>
+</head>
+<body>
+  <script>
+    window.addEventListener("load", async () => {
+      try {
+        const naverLogin = new window.opener.naver.LoginWithNaverId({
+          clientId: window.opener.import.meta.env.VITE_NAVER_CLIENT_ID,
+          callbackUrl: window.location.href,
+          isPopup: true,
+          callbackHandle: true,
+        });
+
+        naverLogin.init();
+
+        naverLogin.getLoginStatus(async function (status) {
+          if (status) {
+            const profile = naverLogin.user;
+
+            window.opener.postMessage(
+              {
+                type: "NAVER_LOGIN_SUCCESS",
+                profile,
+              },
+              window.location.origin
+            );
+
+            window.close();
+          } else {
+            window.opener.postMessage(
+              {
+                type: "NAVER_LOGIN_FAIL",
+                message: "네이버 로그인 실패",
+              },
+              window.location.origin
+            );
+
+            window.close();
+          }
+        });
+      } catch (err) {
+        window.opener.postMessage(
+          {
+            type: "NAVER_LOGIN_FAIL",
+            message: err.message,
+          },
+          window.location.origin
+        );
+
+        window.close();
+      }
+    });
+  </script>
+</body>
+</html>
