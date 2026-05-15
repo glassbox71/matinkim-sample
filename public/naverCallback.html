@@ -8,17 +8,21 @@
   <script>
     window.addEventListener("load", async () => {
       try {
+
+        const CLIENT_ID = "여기에_네이버_CLIENT_ID";
+
         const naverLogin = new window.opener.naver.LoginWithNaverId({
-          clientId: window.opener.import.meta.env.VITE_NAVER_CLIENT_ID,
+          clientId: CLIENT_ID,
           callbackUrl: window.location.href,
           isPopup: true,
-          callbackHandle: true,
         });
 
         naverLogin.init();
 
-        naverLogin.getLoginStatus(async function (status) {
+        naverLogin.getLoginStatus(function (status) {
+
           if (status) {
+
             const profile = naverLogin.user;
 
             window.opener.postMessage(
@@ -30,7 +34,9 @@
             );
 
             window.close();
+
           } else {
+
             window.opener.postMessage(
               {
                 type: "NAVER_LOGIN_FAIL",
@@ -42,7 +48,9 @@
             window.close();
           }
         });
+
       } catch (err) {
+
         window.opener.postMessage(
           {
             type: "NAVER_LOGIN_FAIL",

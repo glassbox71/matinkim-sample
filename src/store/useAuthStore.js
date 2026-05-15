@@ -432,17 +432,6 @@ export const useAuthStore = create(
             document.body.appendChild(loginBox);
           }
 
-          // const naverLogin = new window.naver.LoginWithNaverId({
-          //   clientId: CLIENT_ID,
-          //   callbackUrl: REDIRECT_URI,
-          //   isPopup: true,
-          //   loginButton: {
-          //     color: "green",
-          //     type: 3,
-          //     height: 60,
-          //   },
-          //   callbackHandle: true,
-          // });
           const naverLogin = new window.naver.LoginWithNaverId({
             clientId: CLIENT_ID,
             callbackUrl: REDIRECT_URI,
@@ -452,7 +441,9 @@ export const useAuthStore = create(
               type: 3,
               height: 60,
             },
+            // callbackHandle: true,
           });
+
 
           naverLogin.init();
 
