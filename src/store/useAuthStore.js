@@ -414,133 +414,205 @@ export const useAuthStore = create(
         }
       },
 
-      onNaverLogin: async () => {
+      // onNaverLogin: async () => {
+      //   try {
+      //     if (!window.naver || !window.naver.LoginWithNaverId) {
+      //       throw new Error("네이버 SDK가 로드되지 않았습니다.");
+      //     }
+
+      //     const CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
+      //     const REDIRECT_URI = `${window.location.origin}/naverCallback.html`;
+
+      //     let loginBox = document.getElementById("naverIdLogin");
+
+      //     if (!loginBox) {
+      //       loginBox = document.createElement("div");
+      //       loginBox.id = "naverIdLogin";
+      //       loginBox.style.display = "none";
+      //       document.body.appendChild(loginBox);
+      //     }
+
+      //     const naverLogin = new window.naver.LoginWithNaverId({
+      //       clientId: CLIENT_ID,
+      //       callbackUrl: REDIRECT_URI,
+      //       isPopup: true,
+      //       loginButton: {
+      //         color: "green",
+      //         type: 3,
+      //         height: 60,
+      //       },
+      //       callbackHandle: true,
+      //     });
+
+      //     naverLogin.init();
+
+      //     const profile = await new Promise((resolve, reject) => {
+      //       const timer = setTimeout(() => {
+      //         window.removeEventListener("message", handler);
+      //         reject(new Error("네이버 로그인 시간 초과"));
+      //       }, 120000);
+
+      //       function handler(e) {
+      //         if (e.origin !== window.location.origin) return;
+
+      //         if (e.data?.type === "NAVER_LOGIN_SUCCESS") {
+      //           clearTimeout(timer);
+      //           window.removeEventListener("message", handler);
+      //           resolve(e.data.profile);
+      //         }
+
+      //         if (e.data?.type === "NAVER_LOGIN_FAIL") {
+      //           clearTimeout(timer);
+      //           window.removeEventListener("message", handler);
+      //           reject(new Error(e.data.message));
+      //         }
+      //       }
+
+      //       window.addEventListener("message", handler);
+
+      //       setTimeout(() => {
+      //         const loginBtn = document.querySelector("#naverIdLogin a");
+
+      //         if (!loginBtn) {
+      //           reject(new Error("네이버 로그인 버튼 생성 실패"));
+      //           return;
+      //         }
+
+      //         loginBtn.click();
+      //       }, 300);
+      //     });
+
+      //     const uid = "naver_" + profile.id;
+
+      //     const naverUser = {
+      //       uid,
+      //       email: profile.email || "",
+      //       name: profile.name || "네이버사용자",
+      //       nickname: profile.nickname || profile.name || "네이버사용자",
+      //       photoURL: profile.profile_image || "",
+      //       provider: "naver",
+      //       purchaseAmount: 0,
+      //       purchaseCount: 0,
+      //       grade: "FRIENDS",
+      //     };
+
+      //     const userRef = doc(db, "people", uid);
+      //     const userDoc = await getDoc(userRef);
+
+      //     if (!userDoc.exists()) {
+      //       await setDoc(userRef, naverUser);
+      //     }
+
+      //     set({ user: naverUser });
+      //     localStorage.setItem("socialUser", JSON.stringify(naverUser));
+
+      //     alert(`${naverUser.nickname}님, 네이버 로그인되었습니다.`);
+      //     return naverUser;
+      //   } catch (err) {
+      //     console.error("네이버 로그인 오류:", err);
+      //     alert("네이버 로그인 실패: " + err.message);
+      //     throw err;
+      //   }
+      // },
+      // 네이버 로그인
+      onNaverLogin: () => {
+        const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+        const callbackUrl = encodeURIComponent(import.meta.env.VITE_NAVER_CALLBACK_URL);
+
+        const state = Math.random().toString(36).substring(2);
+
+        const url = `https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=${clientId}&redirect_uri=${callbackUrl}&state=${state}`;
+        window.location.href = url;
+      },
+
+      onNaverCallback: async (accessToken) => {
         try {
-          if (!window.naver || !window.naver.LoginWithNaverId) {
-            throw new Error("네이버 SDK가 로드되지 않았습니다.");
-          }
-
-          const CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
-          const REDIRECT_URI = `${window.location.origin}/naverCallback.html`;
-
-          let loginBox = document.getElementById("naverIdLogin");
-
-          if (!loginBox) {
-            loginBox = document.createElement("div");
-            loginBox.id = "naverIdLogin";
-            loginBox.style.display = "none";
-            document.body.appendChild(loginBox);
-          }
-
-          const naverLogin = new window.naver.LoginWithNaverId({
-            clientId: CLIENT_ID,
-            callbackUrl: REDIRECT_URI,
-            isPopup: true,
-            loginButton: {
-              color: "green",
-              type: 3,
-              height: 60,
+          // const res = await fetch(`/naver-api/v1/nid/me`, {
+          //     headers: { Authorization: `Bearer ${accessToken}` },
+          // });
+          const res = await fetch(`/.netlify/functions/naver-user`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
             },
-            callbackHandle: true,
           });
 
-          naverLogin.init();
-
-          const profile = await new Promise((resolve, reject) => {
-            const timer = setTimeout(() => {
-              window.removeEventListener("message", handler);
-              reject(new Error("네이버 로그인 시간 초과"));
-            }, 120000);
-
-            function handler(e) {
-              if (e.origin !== window.location.origin) return;
-
-              if (e.data?.type === "NAVER_LOGIN_SUCCESS") {
-                clearTimeout(timer);
-                window.removeEventListener("message", handler);
-                resolve(e.data.profile);
-              }
-
-              if (e.data?.type === "NAVER_LOGIN_FAIL") {
-                clearTimeout(timer);
-                window.removeEventListener("message", handler);
-                reject(new Error(e.data.message));
-              }
-            }
-
-            window.addEventListener("message", handler);
-
-            setTimeout(() => {
-              const loginBtn = document.querySelector("#naverIdLogin a");
-
-              if (!loginBtn) {
-                reject(new Error("네이버 로그인 버튼 생성 실패"));
-                return;
-              }
-
-              loginBtn.click();
-            }, 300);
-          });
-
-          const uid = "naver_" + profile.id;
+          const data = await res.json();
+          const profile = data.response;
 
           const naverUser = {
-            uid,
-            email: profile.email || "",
-            name: profile.name || "네이버사용자",
-            nickname: profile.nickname || profile.name || "네이버사용자",
-            photoURL: profile.profile_image || "",
-            provider: "naver",
-            purchaseAmount: 0,
-            purchaseCount: 0,
-            grade: "FRIENDS",
+            uid: 'naver_' + profile.id,
+            email: profile.email || '',
+            name: profile.name || '네이버사용자',
+            nickname: profile.nickname || profile.name || '네이버사용자',
+            photoURL: profile.profile_image || '',
+            provider: 'naver',
           };
 
-          const userRef = doc(db, "people", uid);
+          const userRef = doc(db, 'people', naverUser.uid);
           const userDoc = await getDoc(userRef);
 
           if (!userDoc.exists()) {
             await setDoc(userRef, naverUser);
           }
 
-          set({ user: naverUser });
-          localStorage.setItem("socialUser", JSON.stringify(naverUser));
+          const currentUser = get().user
+          if (currentUser) {
+            const currentUserRef = doc(db, 'people', currentUser.uid)
+            await updateDoc(currentUserRef, {
+              "socials.naver": { email: profile.email || '', linked: true }
+            })
+            set({
+              user: {
+                ...currentUser,
+                socials: {
+                  ...currentUser?.socials,
+                  naver: { email: profile.email || '', linked: true }
+                }
+              }
+            })
+          } else {
+            localStorage.setItem("social_uid", naverUser.uid);
+            localStorage.setItem("social_provider", "naver");
+            set({ user: naverUser })
+          }
 
-          alert(`${naverUser.nickname}님, 네이버 로그인되었습니다.`);
-          return naverUser;
+          const productOwnerUid = get().user?.uid || naverUser.uid;
+          const { useProductStore } = await import('./useProductStore');
+          await useProductStore.getState().fetchOrderList({ uid: productOwnerUid });
+          await useProductStore.getState().fetchCartItems({ uid: productOwnerUid });
+          toast(`${naverUser.nickname}님, 로그인 성공!`)
+          return true
         } catch (err) {
-          console.error("네이버 로그인 오류:", err);
-          alert("네이버 로그인 실패: " + err.message);
-          throw err;
+          console.error('네이버 콜백 오류:', err);
+          toast(err.message);
         }
       },
-
       onLogout: async () => {
-  const isConfirm = window.confirm("로그아웃 하시겠습니까?");
+        const isConfirm = window.confirm("로그아웃 하시겠습니까?");
 
-  if (!isConfirm) return;
+        if (!isConfirm) return;
 
-  try {
-    localStorage.removeItem("socialUser");
-    localStorage.removeItem("auth-storage");
+        try {
+          localStorage.removeItem("socialUser");
+          localStorage.removeItem("auth-storage");
 
-    await signOut(auth);
+          await signOut(auth);
 
-    set({
-      user: null,
-      savedMoneyList: [],
-      savedMoneySummary: getSavedMoneySummary([]),
-    });
+          set({
+            user: null,
+            savedMoneyList: [],
+            savedMoneySummary: getSavedMoneySummary([]),
+          });
 
-    const { useProductStore } = await import("./useProductStore");
-    useProductStore.setState({ wishList: [] });
+          const { useProductStore } = await import("./useProductStore");
+          useProductStore.setState({ wishList: [] });
 
-    alert("로그아웃 되었습니다.");
-  } catch (err) {
-    console.error("로그아웃 에러:", err);
-    alert("로그아웃 중 오류가 발생했습니다.");
-  }
-},
+          alert("로그아웃 되었습니다.");
+        } catch (err) {
+          console.error("로그아웃 에러:", err);
+          alert("로그아웃 중 오류가 발생했습니다.");
+        }
+      },
 
       onUpdateUserInfo: async (userInfo) => {
         const { user } = get();
