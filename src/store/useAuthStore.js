@@ -454,7 +454,7 @@ export const useAuthStore = create(
             }, 120000);
 
             function handler(e) {
-              if (e.origin !== window.location.origin) return;
+              // if (e.origin !== window.location.origin) return;
 
               if (e.data?.type === "NAVER_LOGIN_SUCCESS") {
                 clearTimeout(timer);

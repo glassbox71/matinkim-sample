@@ -5,63 +5,58 @@
   <title>Naver Login Callback</title>
 </head>
 <body>
-  <script>
-    window.addEventListener("load", async () => {
-      try {
 
-        const CLIENT_ID = "여기에_네이버_CLIENT_ID";
+<script>
+window.addEventListener("load", () => {
 
-        const naverLogin = new window.opener.naver.LoginWithNaverId({
-          clientId: CLIENT_ID,
-          callbackUrl: window.location.href,
-          isPopup: true,
-        });
+  const CLIENT_ID = "네이버클라이언트아이디";
 
-        naverLogin.init();
+  const naverLogin = new window.opener.naver.LoginWithNaverId({
+    clientId: CLIENT_ID,
+    callbackUrl: window.location.href,
+    isPopup: true,
+  });
 
-        naverLogin.getLoginStatus(function (status) {
+  naverLogin.init();
 
-          if (status) {
+  setTimeout(() => {
 
-            const profile = naverLogin.user;
+    naverLogin.getLoginStatus((status) => {
 
-            window.opener.postMessage(
-              {
-                type: "NAVER_LOGIN_SUCCESS",
-                profile,
-              },
-              window.location.origin
-            );
+      console.log("네이버 상태:", status);
+      console.log("네이버 유저:", naverLogin.user);
 
-            window.close();
+      if (status) {
 
-          } else {
+        const profile = naverLogin.user;
 
-            window.opener.postMessage(
-              {
-                type: "NAVER_LOGIN_FAIL",
-                message: "네이버 로그인 실패",
-              },
-              window.location.origin
-            );
+        window.opener.postMessage(
+          {
+            type: "NAVER_LOGIN_SUCCESS",
+            profile,
+          },
+          "*"
+        );
 
-            window.close();
-          }
-        });
-
-      } catch (err) {
+      } else {
 
         window.opener.postMessage(
           {
             type: "NAVER_LOGIN_FAIL",
-            message: err.message,
+            message: "네이버 로그인 실패",
           },
-          window.location.origin
+          "*"
         );
-
-        window.close();
       }
+
+      window.close();
+
     });
-  </script>
+
+  }, 1000);
+
+});
+</script>
+
 </body>
 </html>
