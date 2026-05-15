@@ -287,7 +287,8 @@ export const useProductStore = create((set, get) => ({
       totalPrice: get().onTotal(updateCart),
     });
   },
-  onReduceItems: (orderedKeys) => {
+  // onReduceItems: (orderedKeys) => {
+  onReduceItems: (orderedItems) => {
     const cart = get().cartItem;
 
     const updateCart = cart.reduce((acc, cartItem) => {
@@ -308,7 +309,8 @@ export const useProductStore = create((set, get) => ({
 
     localStorage.setItem("cartItem", JSON.stringify(updateCart));
     set({
-      cartItem: updateCart,
+      // cartItem: updateCart,
+      cartItem:[],
       cartCount: updateCart.length,
       totalPrice: get().onTotal(updateCart),
     });

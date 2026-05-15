@@ -28,6 +28,7 @@ export default function UserInfo() {
   const { onLogout } = useAuthStore();
   const { setBrand } = useBrandStore();
   const selectMenu = orderId ? orderMenu : location.state?.menu || myMenu;
+  console.log("dfdfdf",location.state)
 
   useEffect(() => {
     setBrand(BRAND.MATINKIM);
