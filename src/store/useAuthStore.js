@@ -432,6 +432,17 @@ export const useAuthStore = create(
             document.body.appendChild(loginBox);
           }
 
+          // const naverLogin = new window.naver.LoginWithNaverId({
+          //   clientId: CLIENT_ID,
+          //   callbackUrl: REDIRECT_URI,
+          //   isPopup: true,
+          //   loginButton: {
+          //     color: "green",
+          //     type: 3,
+          //     height: 60,
+          //   },
+          //   callbackHandle: true,
+          // });
           const naverLogin = new window.naver.LoginWithNaverId({
             clientId: CLIENT_ID,
             callbackUrl: REDIRECT_URI,
@@ -441,7 +452,6 @@ export const useAuthStore = create(
               type: 3,
               height: 60,
             },
-            callbackHandle: true,
           });
 
           naverLogin.init();
@@ -516,31 +526,31 @@ export const useAuthStore = create(
       },
 
       onLogout: async () => {
-  const isConfirm = window.confirm("로그아웃 하시겠습니까?");
+        const isConfirm = window.confirm("로그아웃 하시겠습니까?");
 
-  if (!isConfirm) return;
+        if (!isConfirm) return;
 
-  try {
-    localStorage.removeItem("socialUser");
-    localStorage.removeItem("auth-storage");
+        try {
+          localStorage.removeItem("socialUser");
+          localStorage.removeItem("auth-storage");
 
-    await signOut(auth);
+          await signOut(auth);
 
-    set({
-      user: null,
-      savedMoneyList: [],
-      savedMoneySummary: getSavedMoneySummary([]),
-    });
+          set({
+            user: null,
+            savedMoneyList: [],
+            savedMoneySummary: getSavedMoneySummary([]),
+          });
 
-    const { useProductStore } = await import("./useProductStore");
-    useProductStore.setState({ wishList: [] });
+          const { useProductStore } = await import("./useProductStore");
+          useProductStore.setState({ wishList: [] });
 
-    alert("로그아웃 되었습니다.");
-  } catch (err) {
-    console.error("로그아웃 에러:", err);
-    alert("로그아웃 중 오류가 발생했습니다.");
-  }
-},
+          alert("로그아웃 되었습니다.");
+        } catch (err) {
+          console.error("로그아웃 에러:", err);
+          alert("로그아웃 중 오류가 발생했습니다.");
+        }
+      },
 
       onUpdateUserInfo: async (userInfo) => {
         const { user } = get();
