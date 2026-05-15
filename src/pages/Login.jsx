@@ -75,6 +75,7 @@ export default function Login({ onClose, guestMode = false, guestOrderItems = []
     try {
       const user = await onNaverLogin();
       if (user) handleAfterLogin(); // ✅
+       console.log(user);
     } catch (err) {
       console.error(err);
     }
