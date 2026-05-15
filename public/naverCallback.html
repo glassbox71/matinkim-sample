@@ -2,18 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Naver Login Callback</title>
+  <title>Naver Callback</title>
 </head>
 <body>
 
 <script>
+
 window.addEventListener("load", () => {
 
-  const CLIENT_ID = "네이버클라이언트아이디";
+  console.log("콜백 시작");
+
+  const CLIENT_ID = "여기에_네이버_CLIENT_ID";
+
+  const CALLBACK_URL =
+    "http://localhost:5173/naverCallback.html";
 
   const naverLogin = new window.opener.naver.LoginWithNaverId({
     clientId: CLIENT_ID,
-    callbackUrl: window.location.href,
+    callbackUrl: CALLBACK_URL,
     isPopup: true,
   });
 
@@ -23,17 +29,15 @@ window.addEventListener("load", () => {
 
     naverLogin.getLoginStatus((status) => {
 
-      console.log("네이버 상태:", status);
-      console.log("네이버 유저:", naverLogin.user);
+      console.log("로그인 상태:", status);
+      console.log("유저:", naverLogin.user);
 
       if (status) {
-
-        const profile = naverLogin.user;
 
         window.opener.postMessage(
           {
             type: "NAVER_LOGIN_SUCCESS",
-            profile,
+            profile: naverLogin.user,
           },
           "*"
         );
@@ -43,7 +47,7 @@ window.addEventListener("load", () => {
         window.opener.postMessage(
           {
             type: "NAVER_LOGIN_FAIL",
-            message: "네이버 로그인 실패",
+            message: JSON.stringify(naverLogin.user),
           },
           "*"
         );
@@ -53,9 +57,10 @@ window.addEventListener("load", () => {
 
     });
 
-  }, 1000);
+  }, 2000);
 
 });
+
 </script>
 
 </body>

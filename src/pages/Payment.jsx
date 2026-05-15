@@ -336,14 +336,8 @@ export default function Payment() {
         const orderedKeys = orderItems.map((item) => item.key).filter(Boolean);
         console.log("orderedKeys:", orderedKeys);  // ← 이거 추가
         console.log("cartItem:", useProductStore.getState().cartItem);
-
-        // if (orderedKeys.length > 0) {
-        //     onReduceItems(orderedKeys);
-        // } else {
-        //     onClearCart();
-        // }
-        if (orderItems.length > 0) {
-            onReduceItems(orderItems);
+        if (orderedKeys.length > 0) {
+            onReduceItems(orderedKeys);
         } else {
             onClearCart();
         }
